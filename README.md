@@ -11,4 +11,4 @@ so this extension fixes that for good.
 ## Notes
 
 - the extension doesn't need any configuration, just make a selection and press the surrounding key
-- doesn't support input's because its not exposed to api yet
+- doesn't support inputs because its not exposed to api yet
