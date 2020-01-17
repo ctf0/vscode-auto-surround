@@ -16,40 +16,44 @@ async function activate(context) {
         }
     })
 
-    context.subscriptions.push(
-        vscode.commands.registerCommand('type', async (e) => {
-            let { text } = e
-            let editor = vscode.window.activeTextEditor
-            let { selections } = editor
-            let newSelections = []
+    context.subscriptions.push(vscode.commands.registerCommand('type', doStuff))
+}
 
-            for (const select of selections) {
-                let { start, end } = select
-                let range = new vscode.Range(start, end)
+async function doStuff(e) {
+    let { text } = e
+    let editor = vscode.window.activeTextEditor
+    let { document, selections } = editor
+    let newSelections = []
 
-                if (!range.isEmpty && keysList.includes(text)) {
-                    await editor.edit(
-                        (edit) => {
-                            edit.insert(start, text)
-                            edit.insert(end, text)
+    for (const select of selections) {
+        if (config.ignoreSurroundMappedChars && keysList.includes(document.getText(select))) {
+            continue
+        }
 
-                            newSelections.push(new vscode.Selection(
-                                start.line,
-                                start.character,
-                                end.line,
-                                end.character + text.length * 2
-                            ))
-                        },
-                        { undoStopBefore: true, undoStopAfter: false }
-                    )
-                }
-            }
+        let { start, end } = select
+        let range = new vscode.Range(start, end)
 
-            newSelections.length
-                ? editor.selections = newSelections
-                : vscode.commands.executeCommand('default:type', { text: text })
-        })
-    )
+        if (!range.isEmpty && keysList.includes(text)) {
+            await editor.edit(
+                (edit) => {
+                    edit.insert(start, text)
+                    edit.insert(end, text)
+
+                    newSelections.push(new vscode.Selection(
+                        start.line,
+                        start.character,
+                        end.line,
+                        end.character + text.length * 2
+                    ))
+                },
+                { undoStopBefore: true, undoStopAfter: false }
+            )
+        }
+    }
+
+    newSelections.length
+        ? editor.selections = newSelections
+        : vscode.commands.executeCommand('default:type', { text: text })
 }
 
 async function readConfig() {
