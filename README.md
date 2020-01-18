@@ -12,3 +12,4 @@ so this extension fixes that for good.
 
 - the extension doesn't need any configuration, just make a selection and press the surrounding key
 - doesn't support inputs because its not exposed to api yet
+- https://github.com/Microsoft/vscode/issues/13441
