@@ -7,3 +7,7 @@
 ## 0.0.2
 
 - new config `ignoreSurroundMappedChars`
+
+## 0.0.3
+
+- new configs

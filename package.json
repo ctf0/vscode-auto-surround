@@ -2,7 +2,7 @@
     "name": "auto-surround",
     "displayName": "Auto Surround",
     "description": "auto surround text as you type",
-    "version": "0.0.2",
+    "version": "0.0.3",
     "publisher": "ctf0",
     "repository": "https://github.com/ctf0/vscode-auto-surround",
     "engines": {
@@ -27,6 +27,7 @@
                     "default": [
                         "/",
                         "*",
+                        "=",
                         "-",
                         "+",
                         ".",
@@ -47,7 +48,25 @@
                 "auto-surround.ignoreSurroundMappedChars": {
                     "type": "boolean",
                     "default": true,
-                    "description": "don't auto surround if the selected character is one of the surrounding list"
+                    "description": "don't auto surround if the selected character/s is one of the surrounding list"
+                },
+                "auto-surround.ignoreSurroundMappedCharsLength": {
+                    "type": "number",
+                    "default": 2,
+                    "description": "if the text of length are all equal, then replace not surround"
+                },
+                "auto-surround.mode": {
+                    "type": "string",
+                    "default": "out-in",
+                    "enum": [
+                        "out-in",
+                        "in-out"
+                    ],
+                    "enumDescriptions": [
+                        "select text only",
+                        "select text & surrounding characters"
+                    ],
+                    "description": "text selection mode after surrounding"
                 }
             }
         }

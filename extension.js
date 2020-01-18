@@ -24,9 +24,16 @@ async function doStuff(e) {
     let editor = vscode.window.activeTextEditor
     let { document, selections } = editor
     let newSelections = []
+    let isOutIn = config.mode == 'out-in'
 
     for (const select of selections) {
-        if (config.ignoreSurroundMappedChars && keysList.includes(document.getText(select))) {
+        let selectedText = document.getText(select)
+
+        if (
+            config.ignoreSurroundMappedChars &&
+            selectedText.length <= config.ignoreSurroundMappedCharsLength &&
+            allEqual(selectedText)
+        ) {
             continue
         }
 
@@ -41,9 +48,9 @@ async function doStuff(e) {
 
                     newSelections.push(new vscode.Selection(
                         start.line,
-                        start.character,
+                        isOutIn ? start.character + 1 : start.character,
                         end.line,
-                        end.character + text.length * 2
+                        end.character + (isOutIn ? 1 : text.length * 2)
                     ))
                 },
                 { undoStopBefore: true, undoStopAfter: false }
@@ -54,6 +61,16 @@ async function doStuff(e) {
     newSelections.length
         ? editor.selections = newSelections
         : vscode.commands.executeCommand('default:type', { text: text })
+}
+
+function allEqual(str) {
+    let main = str[0]
+    let arr = str.split('')
+    let test = arr.every((char) => char === main)
+
+    return arr.length && test
+        ? keysList.includes(main)
+        : false
 }
 
 async function readConfig() {
