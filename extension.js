@@ -1,8 +1,10 @@
 const vscode = require('vscode')
 const PACKAGE_NAME = 'auto-surround'
+const escapeStringRegexp = require('escape-string-regexp')
 
 let config = {}
 let keysList = []
+let escapedKeysList = null
 
 /**
  * @param {vscode.ExtensionContext} context
@@ -30,9 +32,13 @@ async function doStuff(e) {
         let selectedText = document.getText(select)
 
         if (
-            config.ignoreSurroundMappedChars &&
-            selectedText.length <= config.ignoreSurroundMappedCharsLength &&
-            allEqual(selectedText)
+            (config.ignoreSurroundIfFirst && new RegExp(`^(${escapedKeysList})`, 'i').test(selectedText)) ||
+            (config.ignoreSurroundIfLast && new RegExp(`(${escapedKeysList})$`, 'i').test(selectedText)) ||
+            (
+                config.ignoreSurroundMappedChars &&
+                selectedText.length <= config.ignoreSurroundMappedCharsLength &&
+                allEqual(selectedText)
+            )
         ) {
             continue
         }
@@ -76,6 +82,7 @@ function allEqual(str) {
 async function readConfig() {
     config = await vscode.workspace.getConfiguration(PACKAGE_NAME)
     keysList = config.list
+    escapedKeysList = keysList.map((e) => escapeStringRegexp(e)).join('|')
 }
 
 function deactivate() { }

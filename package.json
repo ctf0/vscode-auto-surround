@@ -2,7 +2,7 @@
     "name": "auto-surround",
     "displayName": "Auto Surround",
     "description": "auto surround text as you type",
-    "version": "0.0.3",
+    "version": "0.0.4",
     "publisher": "ctf0",
     "repository": "https://github.com/ctf0/vscode-auto-surround",
     "engines": {
@@ -56,6 +56,16 @@
                     "default": 2,
                     "description": "if the text of length are all equal, then replace not surround"
                 },
+                "auto-surround.ignoreSurroundIfFirst": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "if the first character is one of the surrounding list, then replace not surround"
+                },
+                "auto-surround.ignoreSurroundIfLast": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "if the last character is one of the surrounding list, then replace not surround"
+                },
                 "auto-surround.mode": {
                     "type": "string",
                     "default": "out-in",
@@ -85,5 +95,8 @@
         "mocha": "^6.2.2",
         "typescript": "^3.6.4",
         "vscode-test": "^1.2.2"
+    },
+    "dependencies": {
+        "escape-string-regexp": "^2.0.0"
     }
 }
