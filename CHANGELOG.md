@@ -11,3 +11,7 @@
 ## 0.0.3
 
 - new configs
+
+## 0.0.5
+
+- new configs

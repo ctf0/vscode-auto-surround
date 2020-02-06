@@ -2,7 +2,7 @@
     "name": "auto-surround",
     "displayName": "Auto Surround",
     "description": "auto surround text as you type",
-    "version": "0.0.4",
+    "version": "0.0.5",
     "publisher": "ctf0",
     "repository": "https://github.com/ctf0/vscode-auto-surround",
     "engines": {
@@ -46,25 +46,30 @@
                     ],
                     "description": "text surrounding character mapping"
                 },
+                "auto-surround.ignoreSurroundMappedCharsLength": {
+                    "type": "number",
+                    "default": 3,
+                    "markdownDescription": "if the text of length or less are all equal, then replace not surround (applies for both `#auto-surround.ignoreSurroundMappedChars#` && `#auto-surround.replaceAllWithMappedChars#`)"
+                },
+                "auto-surround.replaceAllWithMappedChars": {
+                    "type": "boolean",
+                    "default": true,
+                    "markdownDescription": "if all the selected characters are equal, then replace each (this takes precedence over all the other settings)"
+                },
                 "auto-surround.ignoreSurroundMappedChars": {
                     "type": "boolean",
                     "default": true,
-                    "description": "don't auto surround if the selected character/s is one of the surrounding list"
-                },
-                "auto-surround.ignoreSurroundMappedCharsLength": {
-                    "type": "number",
-                    "default": 2,
-                    "description": "if the text of length are all equal, then replace not surround"
+                    "markdownDescription": "don't auto surround if the selected character/s is one of `#auto-surround.list#`"
                 },
                 "auto-surround.ignoreSurroundIfFirst": {
                     "type": "boolean",
                     "default": true,
-                    "description": "if the first character is one of the surrounding list, then replace not surround"
+                    "markdownDescription": "if the first character is one of `#auto-surround.list#`, then replace not surround"
                 },
                 "auto-surround.ignoreSurroundIfLast": {
                     "type": "boolean",
                     "default": false,
-                    "description": "if the last character is one of the surrounding list, then replace not surround"
+                    "markdownDescription": "if the last character is one of `#auto-surround.list#`, then replace not surround"
                 },
                 "auto-surround.mode": {
                     "type": "string",

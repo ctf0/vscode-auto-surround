@@ -28,9 +28,31 @@ async function doStuff(e) {
     let newSelections = []
     let isOutIn = config.mode == 'out-in'
 
-    for (const select of selections) {
-        let selectedText = document.getText(select)
+    for (const selection of selections) {
+        let selectedText = document.getText(selection)
 
+        // replace each
+        if (
+            config.replaceAllWithMappedChars &&
+            selectedText.length <= config.ignoreSurroundMappedCharsLength &&
+            allEqual(selectedText) &&
+            keysList.includes(text)
+        ) {
+            let char = selectedText.charAt(0)
+            let replacement = selectedText.replace(new RegExp(escapeStringRegexp(char), 'g'), text)
+
+            await editor.edit(
+                (edit) => {
+                    edit.replace(selection, replacement)
+                    newSelections.push(selection)
+                },
+                { undoStopBefore: true, undoStopAfter: true }
+            )
+
+            continue
+        }
+
+        // do nothing
         if (
             (config.ignoreSurroundIfFirst && new RegExp(`^(${escapedKeysList})`, 'i').test(selectedText)) ||
             (config.ignoreSurroundIfLast && new RegExp(`(${escapedKeysList})$`, 'i').test(selectedText)) ||
@@ -43,10 +65,10 @@ async function doStuff(e) {
             continue
         }
 
-        let { start, end } = select
-        let range = new vscode.Range(start, end)
+        // surround
+        if (!selection.isEmpty && keysList.includes(text)) {
+            let { start, end } = selection
 
-        if (!range.isEmpty && keysList.includes(text)) {
             await editor.edit(
                 (edit) => {
                     edit.insert(start, text)
