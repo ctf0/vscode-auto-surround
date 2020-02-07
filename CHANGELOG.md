@@ -15,3 +15,7 @@
 ## 0.0.5
 
 - new configs
+
+## 0.0.6
+
+- fix doing nothing when only one character is selected

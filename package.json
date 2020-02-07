@@ -2,7 +2,7 @@
     "name": "auto-surround",
     "displayName": "Auto Surround",
     "description": "auto surround text as you type",
-    "version": "0.0.5",
+    "version": "0.0.6",
     "publisher": "ctf0",
     "repository": "https://github.com/ctf0/vscode-auto-surround",
     "engines": {

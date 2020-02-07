@@ -30,14 +30,12 @@ async function doStuff(e) {
 
     for (const selection of selections) {
         let selectedText = document.getText(selection)
+        let areEqual = allEqual(selectedText)
+        let underLen = selectedText.length > 1 && selectedText.length <= config.ignoreSurroundMappedCharsLength
+        let isSupported = keysList.includes(text)
 
         // replace each
-        if (
-            config.replaceAllWithMappedChars &&
-            selectedText.length <= config.ignoreSurroundMappedCharsLength &&
-            allEqual(selectedText) &&
-            keysList.includes(text)
-        ) {
+        if (config.replaceAllWithMappedChars && underLen && areEqual && isSupported) {
             let char = selectedText.charAt(0)
             let replacement = selectedText.replace(new RegExp(escapeStringRegexp(char), 'g'), text)
 
@@ -56,17 +54,13 @@ async function doStuff(e) {
         if (
             (config.ignoreSurroundIfFirst && new RegExp(`^(${escapedKeysList})`, 'i').test(selectedText)) ||
             (config.ignoreSurroundIfLast && new RegExp(`(${escapedKeysList})$`, 'i').test(selectedText)) ||
-            (
-                config.ignoreSurroundMappedChars &&
-                selectedText.length <= config.ignoreSurroundMappedCharsLength &&
-                allEqual(selectedText)
-            )
+            (config.ignoreSurroundMappedChars && underLen && areEqual)
         ) {
             continue
         }
 
         // surround
-        if (!selection.isEmpty && keysList.includes(text)) {
+        if (!selection.isEmpty && isSupported) {
             let { start, end } = selection
 
             await editor.edit(
