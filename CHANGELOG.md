@@ -19,3 +19,8 @@
 ## 0.0.6
 
 - fix doing nothing when only one character is selected
+
+## 0.0.7
+
+- better api for selection update
+- fix incorrect insert for same line selections

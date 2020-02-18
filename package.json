@@ -2,7 +2,7 @@
     "name": "auto-surround",
     "displayName": "Auto Surround",
     "description": "auto surround text as you type",
-    "version": "0.0.6",
+    "version": "0.0.7",
     "publisher": "ctf0",
     "repository": "https://github.com/ctf0/vscode-auto-surround",
     "engines": {
@@ -78,9 +78,9 @@
                         "out-in",
                         "in-out"
                     ],
-                    "enumDescriptions": [
+                    "markdownEnumDescriptions": [
                         "select text only",
-                        "select text & surrounding characters"
+                        "select text & surrounding characters, both \n\n`#auto-surround.ignoreSurroundIfFirst#` &\n\n`#auto-surround.ignoreSurroundIfLast#`\n\nshould be disabled."
                     ],
                     "description": "text selection mode after surrounding"
                 }
