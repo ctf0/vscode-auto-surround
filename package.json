@@ -2,7 +2,7 @@
     "name": "auto-surround",
     "displayName": "Auto Surround",
     "description": "auto surround text as you type",
-    "version": "0.0.7",
+    "version": "0.0.8",
     "publisher": "ctf0",
     "repository": "https://github.com/ctf0/vscode-auto-surround",
     "engines": {
@@ -45,6 +45,14 @@
                         " "
                     ],
                     "description": "text surrounding character mapping"
+                },
+                "auto-surround.oneSideSurround": {
+                    "type": "object",
+                    "default": {
+                        "left": [],
+                        "right": []
+                    },
+                    "markdownDescription": "surround text from one side only (character shouldn't be under `#auto-surround.list#`)"
                 },
                 "auto-surround.ignoreSurroundMappedCharsLength": {
                     "type": "number",

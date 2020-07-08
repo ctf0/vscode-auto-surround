@@ -4,6 +4,8 @@ const escapeStringRegexp = require('escape-string-regexp')
 
 let config = {}
 let keysList = []
+let leftKeysList = []
+let rightKeysList = []
 let escapedKeysList = null
 
 /**
@@ -22,16 +24,20 @@ async function activate(context) {
 }
 
 async function doStuff(e) {
-    let { text } = e
+    let {text} = e
     let editor = vscode.window.activeTextEditor
-    let { document, selections } = editor
+    let {document, selections} = editor
     let newSelections = false
+    let dir = null
 
     for (const selection of invertSelections(selections)) {
         let selectedText = document.getText(selection)
         let areEqual = allEqual(selectedText)
         let underLen = selectedText.length > 1 && selectedText.length <= config.ignoreSurroundMappedCharsLength
-        let isSupported = keysList.includes(text)
+
+        let isLeft = leftKeysList.includes(text)
+        let isRight = rightKeysList.includes(text)
+        let isSupported = keysList.includes(text) || isLeft || isRight
 
         // replace each
         if (config.replaceAllWithMappedChars && underLen && areEqual && isSupported) {
@@ -41,7 +47,7 @@ async function doStuff(e) {
 
             await editor.edit(
                 (edit) => edit.replace(selection, replacement),
-                { undoStopBefore: true, undoStopAfter: true }
+                {undoStopBefore: true, undoStopAfter: true}
             )
 
             continue
@@ -59,38 +65,74 @@ async function doStuff(e) {
         // surround
         if (!selection.isEmpty && isSupported) {
             newSelections = true
-            let { start, end } = selection
+            let {start, end} = selection
 
             await editor.edit(
                 (edit) => {
-                    edit.insert(start, text)
-                    edit.insert(end, text)
+                    if (isLeft) {
+                        dir = 'l'
+
+                        edit.insert(start, text)
+                    } else if (isRight) {
+                        dir = 'r'
+
+                        edit.insert(end, text)
+                    } else {
+                        dir = null
+
+                        edit.insert(start, text)
+                        edit.insert(end, text)
+                    }
                 },
-                { undoStopBefore: true, undoStopAfter: false }
+                {undoStopBefore: true, undoStopAfter: false}
             )
         }
     }
 
     newSelections
-        ? updateSelection()
-        : vscode.commands.executeCommand('default:type', { text: text })
+        ? updateSelection(dir)
+        : vscode.commands.executeCommand('default:type', {text: text})
 }
 
-function updateSelection() {
+function updateSelection(dir) {
     let newSelections = []
     let isOutIn = config.mode == 'out-in'
     let editor = vscode.window.activeTextEditor
-    let { selections } = editor
+    let {selections} = editor
 
     for (const selection of selections) {
-        let { start, end } = selection
+        let {start, end} = selection
+        let range = null
 
-        newSelections.push(new vscode.Selection(
-            start.line,
-            isOutIn ? start.character : start.character - 1,
-            end.line,
-            isOutIn ? end.character - 1 : end.character
-        ))
+        switch (dir) {
+            case 'l':
+                range = new vscode.Selection(
+                    start.line,
+                    isOutIn ? start.character : start.character - 1,
+                    end.line,
+                    end.character
+                )
+                break
+            case 'r':
+                range = new vscode.Selection(
+                    start.line,
+                    start.character,
+                    end.line,
+                    isOutIn ? end.character - 1 : end.character
+                )
+                break
+
+            default:
+                range = new vscode.Selection(
+                    start.line,
+                    isOutIn ? start.character : start.character - 1,
+                    end.line,
+                    isOutIn ? end.character - 1 : end.character
+                )
+                break
+        }
+
+        newSelections.push(range)
     }
 
     editor.selections = newSelections
@@ -100,7 +142,10 @@ function updateSelection() {
 async function readConfig() {
     config = await vscode.workspace.getConfiguration(PACKAGE_NAME)
     keysList = config.list
-    escapedKeysList = keysList.map((e) => escapeStringRegexp(e)).join('|')
+    leftKeysList = config.oneSideSurround.left
+    rightKeysList = config.oneSideSurround.right
+
+    escapedKeysList = [...keysList, ...leftKeysList, ...rightKeysList].map((e) => escapeStringRegexp(e)).join('|')
 }
 
 /* Util --------------------------------------------------------------------- */

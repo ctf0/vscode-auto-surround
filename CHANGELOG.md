@@ -24,3 +24,7 @@
 
 - better api for selection update
 - fix incorrect insert for same line selections
+
+## 0.0.8
+
+- support surrounding from one side
