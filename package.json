@@ -2,11 +2,11 @@
     "name": "auto-surround",
     "displayName": "Auto Surround",
     "description": "auto surround text as you type",
-    "version": "0.0.8",
+    "version": "0.0.9",
     "publisher": "ctf0",
     "repository": "https://github.com/ctf0/vscode-auto-surround",
     "engines": {
-        "vscode": "^1.41.0"
+        "vscode": "^1.51.0"
     },
     "categories": [
         "Other"
@@ -19,7 +19,7 @@
         "configuration": {
             "title": "Auto Surround",
             "properties": {
-                "auto-surround.list": {
+                "autoSurround.list": {
                     "type": "array",
                     "items": {
                         "type": "string"
@@ -46,40 +46,40 @@
                     ],
                     "description": "text surrounding character mapping"
                 },
-                "auto-surround.oneSideSurround": {
+                "autoSurround.oneSideSurround": {
                     "type": "object",
                     "default": {
                         "left": [],
                         "right": []
                     },
-                    "markdownDescription": "surround text from one side only (character shouldn't be under `#auto-surround.list#`)"
+                    "markdownDescription": "surround text from one side only (character shouldn't be under `#autoSurround.list#`)"
                 },
-                "auto-surround.ignoreSurroundMappedCharsLength": {
+                "autoSurround.ignoreSurroundMappedCharsLength": {
                     "type": "number",
                     "default": 3,
-                    "markdownDescription": "if the text of length or less are all equal, then replace not surround (applies for both `#auto-surround.ignoreSurroundMappedChars#` && `#auto-surround.replaceAllWithMappedChars#`)"
+                    "markdownDescription": "if the text of length or less are all equal, then replace not surround (applies for both `#autoSurround.ignoreSurroundMappedChars#` && `#autoSurround.replaceAllWithMappedChars#`)"
                 },
-                "auto-surround.replaceAllWithMappedChars": {
+                "autoSurround.replaceAllWithMappedChars": {
                     "type": "boolean",
                     "default": true,
                     "markdownDescription": "if all the selected characters are equal, then replace each (this takes precedence over all the other settings)"
                 },
-                "auto-surround.ignoreSurroundMappedChars": {
+                "autoSurround.ignoreSurroundMappedChars": {
                     "type": "boolean",
                     "default": true,
-                    "markdownDescription": "don't auto surround if the selected character/s is one of `#auto-surround.list#`"
+                    "markdownDescription": "don't auto surround if the selected character/s is one of `#autoSurround.list#`"
                 },
-                "auto-surround.ignoreSurroundIfFirst": {
+                "autoSurround.ignoreSurroundIfFirst": {
                     "type": "boolean",
                     "default": true,
-                    "markdownDescription": "if the first character is one of `#auto-surround.list#`, then replace not surround"
+                    "markdownDescription": "if the first character is one of `#autoSurround.list#`, then replace not surround"
                 },
-                "auto-surround.ignoreSurroundIfLast": {
+                "autoSurround.ignoreSurroundIfLast": {
                     "type": "boolean",
                     "default": false,
-                    "markdownDescription": "if the last character is one of `#auto-surround.list#`, then replace not surround"
+                    "markdownDescription": "if the last character is one of `#autoSurround.list#`, then replace not surround"
                 },
-                "auto-surround.mode": {
+                "autoSurround.mode": {
                     "type": "string",
                     "default": "out-in",
                     "enum": [
@@ -88,28 +88,25 @@
                     ],
                     "markdownEnumDescriptions": [
                         "select text only",
-                        "select text & surrounding characters, both \n\n`#auto-surround.ignoreSurroundIfFirst#` &\n\n`#auto-surround.ignoreSurroundIfLast#`\n\nshould be disabled."
+                        "select text & surrounding characters, both \n\n`#autoSurround.ignoreSurroundIfFirst#` &\n\n`#autoSurround.ignoreSurroundIfLast#`\n\nshould be disabled."
                     ],
                     "description": "text selection mode after surrounding"
                 }
             }
         }
     },
-    "scripts": {
-        "test": "node ./test/runTest.js"
-    },
     "devDependencies": {
-        "@types/glob": "^7.1.1",
-        "@types/mocha": "^5.2.7",
-        "@types/node": "^12.11.7",
-        "@types/vscode": "^1.41.0",
-        "eslint": "^6.6.0",
-        "glob": "^7.1.5",
-        "mocha": "^6.2.2",
-        "typescript": "^3.6.4",
-        "vscode-test": "^1.2.2"
+        "@types/glob": "^7.1.3",
+        "@types/mocha": "^8.0.4",
+        "@types/node": "^14.14.10",
+        "@types/vscode": "^1.51.0",
+        "eslint": "^7.15.0",
+        "glob": "^7.1.6",
+        "mocha": "^8.2.1",
+        "typescript": "^4.1.2",
+        "vscode-test": "^1.4.1"
     },
     "dependencies": {
-        "escape-string-regexp": "^2.0.0"
+        "escape-string-regexp": "^4.0.0"
     }
 }

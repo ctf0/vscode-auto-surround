@@ -1,5 +1,5 @@
 const vscode = require('vscode')
-const PACKAGE_NAME = 'auto-surround'
+const PACKAGE_NAME = 'autoSurround'
 const escapeStringRegexp = require('escape-string-regexp')
 
 let config = {}

@@ -28,3 +28,7 @@
 ## 0.0.8
 
 - support surrounding from one side
+
+## 0.0.9
+
+- fix package settings name
