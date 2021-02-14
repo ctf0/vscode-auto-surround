@@ -84,7 +84,7 @@ async function doStuff(e) {
                         edit.insert(end, text)
                     }
                 },
-                {undoStopBefore: true, undoStopAfter: false}
+                {undoStopBefore: true, undoStopAfter: true}
             )
         }
     }
