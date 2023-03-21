@@ -2,7 +2,7 @@
     "name": "auto-surround",
     "displayName": "Auto Surround",
     "description": "auto surround text as you type",
-    "version": "0.1.0",
+    "version": "0.1.1",
     "publisher": "ctf0",
     "repository": "https://github.com/ctf0/vscode-auto-surround",
     "engines": {
@@ -100,6 +100,6 @@
         "typescript": "^5.0.2"
     },
     "dependencies": {
-        "escape-string-regexp": "^5.0.0"
+        "escape-string-regexp": "^4.0.0"
     }
 }
