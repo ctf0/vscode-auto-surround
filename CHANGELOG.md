@@ -32,3 +32,7 @@
 ## 0.0.9
 
 - fix package settings name
+
+## 0.1.3
+
+- make all the config `language-overridable` so you can set it according each language

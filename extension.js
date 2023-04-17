@@ -11,16 +11,17 @@ let escapedKeysList = null;
 /**
  * @param {vscode.ExtensionContext} context
  */
-async function activate(context) {
-    await readConfig();
+function activate(context) {
+    readConfig();
 
-    vscode.workspace.onDidChangeConfiguration(async (e) => {
-        if (e.affectsConfiguration(PACKAGE_NAME)) {
-            await readConfig();
-        }
-    });
-
-    context.subscriptions.push(vscode.commands.registerCommand('type', doStuff));
+    context.subscriptions.push(
+        vscode.window.onDidChangeActiveTextEditor((e) => {
+            if (e) {
+                readConfig();
+            }
+        }),
+        vscode.commands.registerCommand('type', doStuff),
+    );
 }
 
 async function doStuff(e) {
@@ -139,8 +140,8 @@ function updateSelection(dir) {
 }
 
 /* Config --------------------------------------------------------------------- */
-async function readConfig() {
-    config = await vscode.workspace.getConfiguration(PACKAGE_NAME);
+function readConfig() {
+    config = vscode.workspace.getConfiguration(PACKAGE_NAME, {languageId: vscode.window.activeTextEditor.document.languageId});
     keysList = config.list;
     leftKeysList = config.oneSideSurround.left;
     rightKeysList = config.oneSideSurround.right;
